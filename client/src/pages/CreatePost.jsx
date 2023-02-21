@@ -28,13 +28,29 @@ const CreatePost = () => {
     setForm({ ...form, prompt: randomPrompt});
   };
 
-  const generateImg = () => {
-    setGeneratingImg(true);
-    setTimeout(() => {
-      setForm((prev) => ({ ...prev, photo: preview }));
-      setGeneratingImg(false);
-    }, 2000);
-  };
+  const generateImg = async () => {
+    if(form.prompt) {
+      try {
+        setGeneratingImg(true);
+        const response = await fetch('http://localhost:8080/api/v1/dalle', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ prompt: form.prompt }),
+        })
+
+        const data = await response.json();
+        setForm({ ...form, photo: `data:image/jpeg;base64,${data.photo}`})
+      } catch (error) {
+        alert(error);
+      } finally {
+        setGeneratingImg(false);
+      }
+    } else {
+      alert('Please enter a prompt');
+    }
+  }; 
 
   return (
     <section className="max-w-7xl mx-auto">
@@ -50,7 +66,7 @@ const CreatePost = () => {
             name="name"
             type="text"
             placeholder="Lindsea"
-            value={form.name}
+            defaultValue={form.name}
             onChange={handleChange}
          />
            <FormField
@@ -58,7 +74,7 @@ const CreatePost = () => {
             name="prompt"
             type="text"
             placeholder="A cat"
-            value={form.prompt}
+            defaultvalue={form.prompt}
             onChange={handleChange}
             isSurpriseMe
             handleSurpriseMe={handleSurpriseMe}
