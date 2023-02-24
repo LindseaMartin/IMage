@@ -15,8 +15,31 @@ const CreatePost = () => {
   const [generatingImg, setGeneratingImg] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = () => {
-    setLoading(true);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (form.name && form.prompt && form.photo) {
+      try {
+        setLoading(true);
+        const response = await fetch('http://localhost:8080/api/v1/posts', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(form),
+        });
+
+        const data = await response.json();
+        navigate(`/post/${data.id}`);
+      } catch (error) {
+        alert(error);
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      alert('Please fill out all the fields');
+    }
+    
   }
 
   const handleChange = (e) => {
@@ -121,3 +144,5 @@ const CreatePost = () => {
 }
 
 export default CreatePost
+
+
