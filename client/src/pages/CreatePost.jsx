@@ -18,19 +18,19 @@ const CreatePost = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (form.name && form.prompt && form.photo) {
-      try {
-        setLoading(true);
+    if (form.prompt && form.photo) {
+      setLoading(true);
+      try {  
         const response = await fetch('http://localhost:8080/api/v1/posts', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(form),
+          body: JSON.stringify({ ...form }),
         });
 
-        const data = await response.json();
-        navigate(`/post/${data.id}`);
+        await response.json();
+        navigate('/');
       } catch (error) {
         alert(error);
       } finally {
@@ -39,7 +39,6 @@ const CreatePost = () => {
     } else {
       alert('Please fill out all the fields');
     }
-    
   }
 
   const handleChange = (e) => {
@@ -91,7 +90,7 @@ const CreatePost = () => {
             name="name"
             type="text"
             placeholder="Lindsea"
-            defaultValue={form.name}
+            value={form.name}
             onChange={handleChange}
          />
            <FormField
@@ -99,17 +98,17 @@ const CreatePost = () => {
             name="prompt"
             type="text"
             placeholder="A cat"
-            defaultvalue={form.prompt}
+            value={form.prompt}
             onChange={handleChange}
             isSurpriseMe
             handleSurpriseMe={handleSurpriseMe}
          />
        
-         <div className='relative vg-gray-50 border border-gray-300 rounded-lg text-gray-900 text-sm focus:ring-blue-500 focus:border-blye-500 w-64 p-3 h-64 flex justify-center items-center'>
+         <div className='relative bg-gray-50 border border-gray-300 rounded-lg text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 w-64 p-3 h-64 flex justify-center items-center'>
           {form.photo ? (
-            <img src={form.photo} alt="preview" className="w-full h-full object-contain" />
+            <img src={form.photo} alt={form.prompt} className="w-full h-full object-contain" />
           ) : (
-            <img src={preview} alt="preview" className="w-9/12 h-9/12 object-contain opacity-40" />
+            <img src={preview} alt={"preview"} className="w-9/12 h-9/12 object-contain opacity-40" />
           )}
 
           {generatingImg && (
@@ -119,11 +118,12 @@ const CreatePost = () => {
               )}
          </div>
         </div>
+
         <div className="mt-5 flex gap-5">
           <button
             type="button"
             onClick={generateImg}
-            className="flex items-center justify-center gap-2 px-5 py-2 bg-[#6469ff] text-white rounded-lg font-medium text-sm"
+            className=" text-center gap-2 px-5 scroll-py-2.5 bg-[#6469ff] text-white rounded-lg font-medium text-sm"
           >
             {generatingImg ? 'Generating...' : 'Generate'}
           </button>
@@ -133,7 +133,7 @@ const CreatePost = () => {
           <p className='mt-2 text-14px'>Once you have created the image you want you can share it with others in the community!</p>
             <button
               type="submit"
-              className="flex items-center justify-center gap-2 px-5 py-2 bg-[#6469ff] text-white rounded-lg font-medium text-sm"
+              className="text-center gap-2 px-5 py-2 bg-[#6469ff] text-white rounded-lg font-medium text-sm"
               >
                 {loading ? 'Sharing...' : 'Share with the community'}
               </button>
