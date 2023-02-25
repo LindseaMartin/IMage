@@ -1,7 +1,7 @@
 import React from 'react'
 
-const FormField = ({ labelName, type, name, placeholder, value, handleChange, isSurpriseMe, handleSurpriseMe}) => {
-  return (
+const FormField = ({ labelName, type, name, placeholder, value, handleChange, isSurpriseMe, handleSurpriseMe}) => (
+  
     <div>
       <div className="flex items-center gap-2 mb-2">
         <label htmlFor={name}
@@ -27,7 +27,7 @@ const FormField = ({ labelName, type, name, placeholder, value, handleChange, is
         className='py-2 px-1 shadow-sm text-sm border border-gray-300 bg-gray-50 text-gray-900 rounded-lg focus:ring-[#6469ff] focus:border-[#6469ff] block w-full outline-none'
         />
     </div>
-  )
-}
+)
+
 
 export default FormField
