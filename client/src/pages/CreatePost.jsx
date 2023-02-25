@@ -21,7 +21,7 @@ const CreatePost = () => {
     if (form.prompt && form.photo) {
       setLoading(true);
       try {  
-        const response = await fetch('http://localhost:8080/api/v1/posts', {
+        const response = await fetch('http://localhost:8080/api/v1/post', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -41,9 +41,9 @@ const CreatePost = () => {
     }
   }
 
-  const handleChange = (e) => {
+  const handleChange = (e) => 
     setForm({ ...form, [e.target.name]: e.target.value });
-  };
+  
 
   const handleSurpriseMe = () => {
     const randomPrompt = getRandomPrompt(form.prompt);
@@ -86,20 +86,20 @@ const CreatePost = () => {
       <form className="mt-16 max-w-3xl" onSubmit={handleSubmit}>
         <div className="flex flex-col gap-5">
         <FormField
-            labelName="Your name"
-            name="name"
+            labelName="Your Name"
             type="text"
+            name="name"
             placeholder="Lindsea"
             value={form.name}
-            onChange={handleChange}
+            handleChange={handleChange}
          />
            <FormField
             labelName="Prompt"
-            name="prompt"
             type="text"
+            name="prompt"
             placeholder="A cat"
             value={form.prompt}
-            onChange={handleChange}
+            handleChange={handleChange}
             isSurpriseMe
             handleSurpriseMe={handleSurpriseMe}
          />
