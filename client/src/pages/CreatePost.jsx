@@ -123,7 +123,7 @@ const CreatePost = () => {
           <button
             type="button"
             onClick={generateImg}
-            className=" text-center gap-2 px-5 scroll-py-2.5 bg-[#6469ff] text-white rounded-lg font-medium text-sm"
+            className="text-center gap-2 px-5 scroll-py-2.5 bg-[#6469ff] text-white rounded-lg font-medium text-sm"
           >
             {generatingImg ? 'Generating...' : 'Generate'}
           </button>
